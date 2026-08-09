@@ -53,6 +53,12 @@ Alternative worker entrypoints for local experiments (run one at a time — all 
 
 ## Endpoints to try
 
+> **This route is open by design for the demo.** It mints a real LiveKit access token
+> and starts an agent session, so anyone who knows the URL can spend your LiveKit and
+> OpenAI credit. Put it behind `server.auth`, or set `requiresAuth: true` on
+> `liveKitConnectionRoute` in `src/mastra/index.ts`, before you give the service a
+> public domain.
+
 ```bash
 # Health check
 curl https://<your-app>.up.railway.app/health
