@@ -1,0 +1,21 @@
+# Settings only — this is NOT a monorepo. pnpm 10+ reads install settings from this file
+# (the `pnpm` field in package.json is no longer read).
+
+# Native modules whose install scripts must run (onnxruntime for the turn detector, the
+# LiveKit local-inference runtime, ffmpeg binaries, sharp, esbuild for the Mastra bundler).
+onlyBuiltDependencies:
+  - '@ffmpeg-installer/darwin-arm64'
+  - '@ffmpeg-installer/linux-arm64'
+  - '@ffmpeg-installer/linux-x64'
+  - '@livekit/local-inference'
+  - esbuild
+  - onnxruntime-node
+  - protobufjs
+  - sharp
+
+# @huggingface/transformers (turn-detector dependency) imports onnxruntime-common without
+# declaring it; declare it so pnpm's strict resolution can find it.
+packageExtensions:
+  '@huggingface/transformers@*':
+    dependencies:
+      onnxruntime-common: '*'

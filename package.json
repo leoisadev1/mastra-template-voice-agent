@@ -1,0 +1,45 @@
+{
+  "name": "mastra-template-voice-agent",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Trades contractor call center voice agent built with @mastra/livekit, with agent and workflow entrypoints",
+  "scripts": {
+    "dev": "mastra dev",
+    "build": "mastra build",
+    "start": "mastra start",
+    "start:all": "concurrently --kill-others-on-fail --names server,worker \"pnpm start\" \"pnpm worker:prod\"",
+    "worker": "node --env-file=.env --import tsx src/mastra/voice-worker.ts dev",
+    "worker:prod": "node --import tsx src/mastra/voice-worker.ts start",
+    "worker:demo": "node --env-file=.env --import tsx src/mastra/voice-worker.ts dev --log-level info",
+    "worker:workflow": "node --env-file=.env --import tsx src/mastra/voice-worker-workflow.ts dev",
+    "worker:regulated": "node --env-file=.env --import tsx src/mastra/voice-worker-regulated.ts dev",
+    "worker:regulated:demo": "node --env-file=.env --import tsx src/mastra/voice-worker-regulated.ts dev --log-level info",
+    "worker:plugin": "node --env-file=.env --import tsx src/mastra/voice-worker-plugin.ts dev",
+    "worker:download-files": "livekit-agents download-files",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf .mastra *.db"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "dependencies": {
+    "@livekit/agents": "1.5.0",
+    "@livekit/agents-plugin-livekit": "1.5.0",
+    "@livekit/agents-plugin-silero": "1.5.0",
+    "@mastra/core": "1.57.0",
+    "@mastra/libsql": "1.19.0",
+    "@mastra/livekit": "0.3.0",
+    "@mastra/memory": "1.26.0",
+    "@mastra/observability": "1.16.5",
+    "concurrently": "^9.1.2",
+    "mastra": "1.23.0",
+    "tsx": "^4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.29.3+sha512.498e1fb4cca5aa06c1dcf2611e6fafc50972ffe7189998c409e90de74566444298ffe43e6cd2acdc775ba1aa7cc5e092a8b7054c811ba8c5770f84693d33d2dc"
+}
