@@ -2,10 +2,10 @@
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "RAILPACK",
-    "buildCommand": "pnpm build && pnpm worker:download-files"
+    "buildCommand": "pnpm build && HF_HOME=\"${HF_HOME:-/app/.cache/huggingface}\" pnpm worker:download-files"
   },
   "deploy": {
-    "startCommand": "pnpm start:all",
+    "startCommand": "HF_HOME=\"${HF_HOME:-/app/.cache/huggingface}\" pnpm start:all",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 3
   }

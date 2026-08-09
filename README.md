@@ -13,10 +13,9 @@ Setup:
 
 1. Create a free LiveKit Cloud project at [cloud.livekit.io](https://cloud.livekit.io) and copy the URL, API key, and secret from Settings -> API Keys.
 2. Set the required variables (table below).
-3. Attach a volume at `/data` and set `VOICE_AGENT_DB_PATH=/data/voice-agent.db` so both processes share one database across deploys.
-4. Set `HF_HOME=/app/.cache/huggingface`. The build command downloads the turn-detection model (~450 MB); this keeps the download inside the runtime image.
+3. Attach a volume and set `VOICE_AGENT_DB_PATH=${{RAILWAY_VOLUME_MOUNT_PATH}}/voice-agent.db` so both processes share one database across deploys.
 
-The build command is `pnpm build && pnpm worker:download-files` (see `railway.json`).
+`railway.json` sets `HF_HOME=/app/.cache/huggingface` for the build and the start command, so the turn-detection model (~450 MB) downloaded at build time is found at runtime. Override `HF_HOME` only if you need a different cache path.
 
 ## Services
 
@@ -30,10 +29,10 @@ The build command is `pnpm build && pnpm worker:download-files` (see `railway.js
 | `LIVEKIT_API_KEY` | Yes | LiveKit API key. |
 | `LIVEKIT_API_SECRET` | Yes | LiveKit API secret. |
 | `OPENAI_API_KEY` | Yes | OpenAI key for the agent model, memory observer, and recall embedder. |
-| `VOICE_AGENT_DB_PATH` | No | Absolute path to the shared LibSQL file. Set `/data/voice-agent.db` on Railway with a volume at `/data`. Default: `./voice-agent.db`. |
+| `VOICE_AGENT_DB_PATH` | No | Absolute path to the shared LibSQL file. Set `${{RAILWAY_VOLUME_MOUNT_PATH}}/voice-agent.db` on Railway with a volume attached. Default: `./voice-agent.db`. |
 | `PORT` | No | Mastra server port. Default `4111`. |
 | `MASTRA_URL` | No | Server URL for the optional plugin worker. Default `http://localhost:4111`. |
-| `HF_HOME` | No | Hugging Face cache dir for the turn-detection model. Set `/app/.cache/huggingface` on Railway. |
+| `HF_HOME` | No | Hugging Face cache dir for the turn-detection model. `railway.json` already defaults it to `/app/.cache/huggingface`. |
 
 STT (`deepgram/nova-3`) and TTS (`cartesia/sonic-3`) run through LiveKit Inference. The LiveKit free tier includes inference credit, so no Deepgram or Cartesia accounts are needed.
 

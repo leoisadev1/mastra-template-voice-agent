@@ -8,7 +8,7 @@
     "dev": "mastra dev",
     "build": "mastra build",
     "start": "mastra start",
-    "start:all": "concurrently --kill-others-on-fail --names server,worker \"pnpm start\" \"pnpm worker:prod\"",
+    "start:all": "node scripts/start-all.mjs",
     "worker": "node --env-file=.env --import tsx src/mastra/voice-worker.ts dev",
     "worker:prod": "node --import tsx src/mastra/voice-worker.ts start",
     "worker:demo": "node --env-file=.env --import tsx src/mastra/voice-worker.ts dev --log-level info",
@@ -32,7 +32,6 @@
     "@mastra/livekit": "0.3.0",
     "@mastra/memory": "1.26.0",
     "@mastra/observability": "1.16.5",
-    "concurrently": "^9.1.2",
     "mastra": "1.23.0",
     "tsx": "^4",
     "zod": "^4.3.6"
